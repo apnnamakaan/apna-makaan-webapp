@@ -1,0 +1,36 @@
+<div class="flex flex-row h-screen ">
+    <!-- side nav bar start-->
+    <div class="w-2/12 bg-slate-800">
+        <app-nav></app-nav>
+    </div>
+    <!--side nav bar end-->
+
+    <!--rightside start-->
+    <div class="flex flex-col w-10/12 ">
+
+        <!--search bar start-->
+        <div class="flex flex-row pt-5 px-10 w-full justify-center border-b-2">
+            <app-select-component class="px-2" (getValueEvent)="setCity($event)" [values]="cityList"
+                placeholder="City" />
+            <app-select-component class="px-2" (getValueEvent)="setBed($event)" [values]="bedList"
+                placeholder="Bed Room" />
+            <app-select-component class="px-2" (getValueEvent)="setBath($event)" [values]="bathList"
+                placeholder="Bath Room" />
+            <app-select-component class="px-2" (getValueEvent)="setGarage($event)" [values]="garageList"
+                placeholder="Garage" />
+            <app-input-component class="px-2" (getValueEvent)="setMinPrice($event)" placeholder="Min" />
+            <app-input-component class="px-2" (getValueEvent)="setMaxPrice($event)" placeholder="Max" />
+            <app-button-component class="px-2" (onClickEvent)="searchButtonPress()" class="w-1/6" name="Search" />
+        </div>
+        <!--search bar end-->
+
+        <!--house list start -->
+        <div class="flex-col py-3 overflow-auto">
+            <app-house-card *ngFor="let house of houseList; let index=index" />
+        </div>
+        <!--house list end-->
+
+
+    </div><!--right side end-->
+
+</div>

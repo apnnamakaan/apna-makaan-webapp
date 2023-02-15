@@ -1,0 +1,25 @@
+<div class="flex flex-row h-screen w-screen">
+    <!-- left side start-->
+    <div class="w-2/4 my-10 flex justify-center items-center">
+
+        <div class="flex justify-center items-center">
+            <!-- from container start-->
+            <div class="xl:w-96">
+                <app-input-component type="text" placeholder="Enter your name" lable="Name" />
+                <app-input-component type="email" placeholder="Enter your email" lable="Email" />
+                <app-input-component type="number" placeholder="Enter your phone" lable="Phone" />
+                <app-input-component type="password" placeholder="Enter your password" lable="Password" />
+                <app-button-component name="SIGN UP" />
+                <div class="flex items-center justify-center">
+                    <p class="px-1">Already have an Account?</p>
+                    <p routerLink="/signin" class="px-1 text-blue-600 font-semibold cursor-pointer">Sign In
+                    </p>
+                </div>
+
+            </div> <!-- From Container end -->
+        </div>
+    </div> <!-- left Side end-->
+
+    <!-- right side start -->
+    <img class="w-2/4 bg-signin" src={{bgImage}} alt=""><!-- right side end -->
+</div>
