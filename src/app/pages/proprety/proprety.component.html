@@ -1,0 +1,61 @@
+<div class="flex flex-row h-screen ">
+    <!-- side nav bar start-->
+    <div class="w-2/12">
+        <app-nav></app-nav>
+    </div>
+    <!--side nav bar end-->
+
+    <!--rightside start-->
+    <div class="flex flex-col w-10/12 ">
+
+        <!--search bar start-->
+        <div class="flex flex-row pt-5 px-10 w-full justify-center border-b-2 ">
+            {{data.id}}
+        </div>
+
+        <div class="flex justify-center">
+
+            <!-- Card serction  -->
+            <div class="flex-col justify-between items-center h-full w-6/12 ">
+
+
+                <div class="h-80">
+                    <img class="h-full w-full bg-cover" src={{property.image}} />
+                </div>
+
+                <!-- Down srction start -->
+                <div class="flex flex-col  h-full">
+
+                    <div class="flex justify-between items-center border p-6 ">
+
+                        <div class="flex flex-col justify-center">
+                            <div class="text-2xl font-bold">Anikesh House</div>
+                            <div>2 BED | 1 BATH | 1 GARAGE | 250 sqrt</div>
+                        </div>
+
+                        <div class="text-4xl font-bold text-blue-600">$ 25k</div>
+
+                    </div>
+
+                    <div class="flex justify-between border h-min p-6 ">
+
+                        <div class="flex flex-col justify-between">
+                            <div class="text-sm">Owner</div>
+                            <div class="text-xl font-bold">Atanu Debnath </div>
+                        </div>
+
+                        <div class="w-3/12 h-full">
+                            <app-button-component name="message" />
+                        </div>
+
+                    </div>
+
+                </div> <!-- Down srction end -->
+
+
+            </div>
+
+        </div>
+    </div><!--right side end-->
+
+</div>

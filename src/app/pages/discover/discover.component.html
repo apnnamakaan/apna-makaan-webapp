@@ -1,6 +1,6 @@
 <div class="flex flex-row h-screen ">
     <!-- side nav bar start-->
-    <div class="w-2/12 bg-slate-800">
+    <div class="w-2/12">
         <app-nav></app-nav>
     </div>
     <!--side nav bar end-->
@@ -10,26 +10,36 @@
 
         <!--search bar start-->
         <div class="flex flex-row pt-5 px-10 w-full justify-center border-b-2">
-            <app-select-component class="px-2" (getValueEvent)="setCity($event)" [values]="cityList"
+            <app-select-component class="w-full px-2" (getValueEvent)="setCity($event)" [values]="data.cityList"
                 placeholder="City" />
-            <app-select-component class="px-2" (getValueEvent)="setBed($event)" [values]="bedList"
-                placeholder="Bed Room" />
-            <app-select-component class="px-2" (getValueEvent)="setBath($event)" [values]="bathList"
-                placeholder="Bath Room" />
-            <app-select-component class="px-2" (getValueEvent)="setGarage($event)" [values]="garageList"
+            <app-select-component class="w-full px-2" (getValueEvent)="setBed($event)" [values]="data.bedList"
+                placeholder="Bed" />
+            <app-select-component class="w-full px-2" (getValueEvent)="setBath($event)" [values]="data.bathList"
+                placeholder="Bath" />
+            <app-select-component class="w-full px-2" (getValueEvent)="setGarage($event)" [values]="data.garageList"
                 placeholder="Garage" />
-            <app-input-component class="px-2" (getValueEvent)="setMinPrice($event)" placeholder="Min" />
-            <app-input-component class="px-2" (getValueEvent)="setMaxPrice($event)" placeholder="Max" />
-            <app-button-component class="px-2" (onClickEvent)="searchButtonPress()" class="w-1/6" name="Search" />
+            <app-input-component type="number" class="w-full px-2" (getValueEvent)="setMinPrice($event)"
+                placeholder="Min Price" />
+            <app-input-component type="number" class="w-full px-2" (getValueEvent)="setMaxPrice($event)"
+                placeholder="Max Price" />
+            <div class="w-full px-2">
+                <app-button-component class="w-full px-10" (onClickEvent)="searchButtonPress()" class="w-1/6"
+                    name="Search" />
+            </div>
         </div>
         <!--search bar end-->
 
-        <!--house list start -->
-        <div class="flex-col py-3 overflow-auto">
-            <app-house-card *ngFor="let house of houseList; let index=index" />
+        <!--properties list start -->
+        <div *ngIf="properties.length != 0; else elseBlock" class="flex-col py-3 overflow-auto">
+            <app-house-card *ngFor="let property of properties; let index=index" [property]="property" />
         </div>
-        <!--house list end-->
+        <ng-template #elseBlock>
+            <div class="flex flex-col justify-center items-center w-full h-full py-3 ">
+                <p>Sorry ! No content found</p>
+            </div>
+        </ng-template>
 
+        <!--properties list end-->
 
     </div><!--right side end-->
 

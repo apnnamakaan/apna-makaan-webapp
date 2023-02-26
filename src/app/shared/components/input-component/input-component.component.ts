@@ -6,7 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styles: [],
 })
 export class InputComponentComponent {
-  @Input() type: String = 'text';
+  @Input() isDisable: any = false;
+  @Input() type: any = 'text';
   @Input() placeholder: String = 'placeholder name';
   @Input() lable: String = '';
 

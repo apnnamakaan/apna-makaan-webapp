@@ -1,7 +1,10 @@
-import { HouseService } from './../../shared/services/house.service';
+import { HelperService } from './../../shared/services/helper.service';
+import { PropertyService } from './../../shared/services/property.service';
 import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GlobalData } from '../../shared/utils/data';
+import { property } from 'src/app/shared/models/property';
 
 @Component({
   selector: 'app-discover',
@@ -9,55 +12,82 @@ import { Router } from '@angular/router';
   styles: [],
 })
 export class DiscoverComponent implements OnInit {
-  houseList: Array<any> = [];
+  public properties: Array<property> = [];
 
-  filterData = {
+  public data: any = GlobalData;
+
+  public filterData: any = {
+    bed: 0,
+    garage: 0,
+    bath: 0,
     city: '',
-    bed: '',
-    bath: '',
-    garage: '',
-    minPrice: '',
-    maxPrice: '',
+    min: 0,
+    max: 0,
   };
 
-  cityList: Array<any> = ['Nabadwip', 'kolkata'];
-  bedList: Array<any> = ['1', '2', '3', '4', '5'];
-  bathList: Array<any> = ['1', '2', '3', '4', '5'];
-  garageList: Array<any> = ['1', '2', '3'];
-
   constructor(
-    private router: Router,
     private authService: AuthService,
-    private houseService: HouseService
-  ) {}
+    private activatedroute: ActivatedRoute,
+    private router: Router,
+    private propertyService: PropertyService,
+    private helperService: HelperService
+  ) {
+    this.authService.checkIsLogedIn();
+  }
 
   ngOnInit(): void {
-    this.houseList = this.houseService.getHouseList(this.filterData);
-    if (!this.authService.login) {
-      this.router.navigate(['/signin']);
-    }
+    // this.activatedroute.queryParams.subscribe((params) => {
+    //   if (!this.helperService.handelEmptyFilds(params, false)) {
+    //     this.getPropertiesByFilter(params);
+    //   } else {
+    //     this.getProperties();
+    //   }
+    // });
+
+    this.getProperties();
   }
 
   setCity(value: any) {
-    this.filterData.city = value;
+    this.filterData.city = value as string;
   }
   setBed(value: any) {
-    this.filterData.bed = value;
+    this.filterData.bed = value as number;
   }
   setBath(value: any) {
-    this.filterData.bath = value;
+    this.filterData.bath = value as number;
   }
   setGarage(value: any) {
-    this.filterData.garage = value;
+    this.filterData.garage = value as number;
   }
   setMaxPrice(value: any) {
-    this.filterData.maxPrice = value;
+    this.filterData.max = value as number;
   }
   setMinPrice(value: any) {
-    this.filterData.minPrice = value;
+    console.log('sertt + ' + value);
+    this.filterData.min = value as number;
+  }
+
+  getProperties() {
+    this.propertyService.getProperties().subscribe({
+      next: (res: Array<property>) => 
+        this.properties = res.sort((b: property, a: property) => {
+          return +new Date(a.createdAt) - +new Date(b.createdAt);
+        }),
+      error: (error: any) => this.helperService.handelError(error),
+    });
+  }
+
+  getPropertiesByFilter(filter: any) {
+    if (this.helperService.handelEmptyFilds(this.filterData)) return;
+    this.propertyService.getPropertiesByFilter(filter).subscribe({
+      next: (res: Array<property>) => this.properties = res.sort((b: property, a: property) => {
+        return +new Date(a.createdAt) - +new Date(b.createdAt);
+      }),
+      error: (error: any) => this.helperService.handelError(error),
+    });
   }
 
   searchButtonPress() {
-    this.houseList = this.houseService.getHouseList(this.filterData);
+    this.getPropertiesByFilter(this.filterData);
   }
 }

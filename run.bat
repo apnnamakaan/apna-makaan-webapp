@@ -1,0 +1,2 @@
+@echo App
+ng serve

@@ -1,3 +1,4 @@
+import { user } from './../../shared/models/user';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -8,29 +9,27 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styles: [],
 })
 export class SigninComponent {
-  bgImage: string = 'assets/images/signinbg.jpg';
+  public bgImage: string = 'assets/images/signinbg.jpg';
 
-  signinData = {
+  public userData: user = {
     email: '',
     password: '',
+    name: '',
+    phone: 0,
   };
 
-  constructor(private router: Router, private authService: AuthService) {}
-
-  ngOnInit(): void {
-    if (this.authService.login) {
-      this.router.navigate(['/']);
-    }
+  constructor(private authService: AuthService, private router: Router) {
+    if (this.authService.isLogedin) this.router.navigateByUrl('/');
   }
 
   setEmail(value: any) {
-    this.signinData.email = value;
+    this.userData.email = value;
   }
   setPassword(value: any) {
-    this.signinData.password = value;
+    this.userData.password = value;
   }
 
-  signInButtonPress() {
-    console.log(this.signinData);
+  loginButtonPress() {
+    this.authService.login(this.userData);
   }
 }

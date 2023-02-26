@@ -1,0 +1,29 @@
+<div class="flex flex-row h-screen">
+    <!-- side nav bar start-->
+    <div class="pc:w-2/12 tab:w-2/12 mob:w-0/12">
+        <app-nav></app-nav>
+    </div>
+    <!--side nav bar end-->
+
+    <!--rightside start-->
+    <div class="flex flex-col w-10/12">
+
+        <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2">
+            <p class="text-3xl">Manage Your Listings</p>
+        </div>
+
+
+        <!--properties list start -->
+        <div *ngIf="properties.length !=0 ; else elseBlock" class="flex-col py-3 overflow-auto">
+            <app-listing-card *ngFor="let property of properties; let index=index" [property]="property" />
+        </div>
+        <ng-template #elseBlock>
+            <div class="flex flex-col justify-center items-center w-full h-full py-3">
+                <p>Sorry ! No content found</p>
+            </div>
+        </ng-template>
+        <!--properties list end-->
+
+    </div><!--right side end-->
+
+</div>

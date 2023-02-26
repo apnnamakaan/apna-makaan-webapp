@@ -2,15 +2,15 @@
     <!-- left side start-->
     <div class="w-2/4 my-10 flex justify-center items-center">
 
-        <div class="flex justify-center items-center">
+        <div class="flex w-full justify-center items-center">
             <!-- from container start-->
-            <div class="xl:w-96">
-                <app-input-component (getValueEvent)="setEmail($event)" type="email" placeholder="Enter your email"
+            <div class="w-3/6">
+                <app-input-component  (getValueEvent)="setEmail($event)" type="email" placeholder="Enter your email"
                     lable="Email" />
-                <app-input-component (getValueEvent)="setPassword($event)" type="password"
+                <app-input-component  (getValueEvent)="setPassword($event)" type="password"
                     placeholder="Enter your password" lable="Password" />
-                <app-button-component (onClickEvent)="signInButtonPress()" name="SIGN IN" />
-                <div class="flex items-center justify-center">
+                <app-button-component (onClickEvent)="loginButtonPress()" name="LOG IN" />
+                <div class="flex items-center justify-center my-3">
                     <p class="px-1">Not registerd yet?</p>
                     <p routerLink="/signup" class="px-1 text-blue-600 font-semibold cursor-pointer">Create an Account
                     </p>

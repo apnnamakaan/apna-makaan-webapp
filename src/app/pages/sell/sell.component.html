@@ -1,0 +1,41 @@
+<div class="flex flex-row h-screen">
+    <!-- side nav bar start-->
+    <div class="pc:w-2/12 tab:w-2/12 mob:w-0/12">
+        <app-nav></app-nav>
+    </div>
+    <!--side nav bar end-->
+
+    <!--rightside start-->
+    <div class="flex flex-col pc:w-10/12 tab:w-10/12 mob:w-12/12 items-center">
+
+        <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 justify-between">
+            <p class="w-full text-3xl">Sell Out Your Property</p>
+            <app-button-component routerLink="/listing" class="w-2/12" name="Your Listings" />
+        </div>
+
+        <div class="flex flex-row justify-between w-8/12 mt-10">
+            <div class=" w-6/12 p-8">
+                <app-file-input (getFileEvent)="setFile($event)" />
+            </div>
+            <div class="w-6/12 p-8">
+                <app-select-component (getValueEvent)="setCity($event)" class="w-full" [values]="data.cityList"
+                    placeholder="Select City" />
+                <app-select-component (getValueEvent)="setBed($event)" class="w-full" [values]="data.bedList"
+                    placeholder="Bed" />
+                <app-select-component (getValueEvent)="setBath($event)" class="w-full" [values]="data.bathList"
+                    placeholder="Bath" />
+                <app-select-component (getValueEvent)="setGarage($event)" class="w-full" [values]="data.garageList"
+                    placeholder="Garrage" />
+                <app-input-component (getValueEvent)="setName($event)" type="text" placeholder="Property Name" />
+                <app-input-component (getValueEvent)="setArea($event)" type="number" placeholder="Area (sqrt)" />
+                <app-input-component (getValueEvent)="setPrice($event)" type="number" placeholder="Price (INR)" />
+                <app-button-component (onClickEvent)="uploadButtonClick()" name="Upload" />
+            </div>
+
+        </div>
+
+
+
+    </div><!--right side end-->
+
+</div>

@@ -1,1 +1,41 @@
-<p>nav works!</p>
+<div class=" w-full h-full flex flex-col border-r-2 text-gray-700">
+
+    <div class="mt-5 ml-9">
+        <p class="text-5xl font-bold">Apna</p>
+        <p class="text-5xl font-medium">Makaan</p>
+    </div>
+
+    <div class="mt-10 ml-9">
+        <p class="text-2xl font-semibold">
+            Hi, {{getName()}}
+        </p>
+        <p class="text-xl first-letter:font-semibold">
+            {{greetings()}}
+        </p>
+    </div>
+
+    <div class="mt-20 ml-9 h-5/12 ">
+        <p routerLink="/" class="mb-3 text-xl font-medium hover:cursor-pointer">
+            Discover
+        </p>
+        <p routerLink="/predict" class="mb-3 text-xl font-medium hover:cursor-pointer">
+            Price Predict
+        </p>
+        <p routerLink="/sell" class="mb-3 text-xl font-medium hover:cursor-pointer">
+            Sell Property
+        </p>
+        <p routerLink="/profile" class="mb-3 text-xl font-medium hover:cursor-pointer">
+            Profile
+        </p>
+    </div>
+
+
+    <div class="flex justify-start mt-24 ml-9">
+        <div (click)="logout()" class="text-xl font-medium hover:cursor-pointer">
+            LOGOUT
+        </div>
+    </div>
+
+
+
+</div>
