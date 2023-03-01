@@ -23,6 +23,18 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { PropretyComponent } from './pages/proprety/proprety.component';
 import { CurrencyPipe } from './shared/pipes/currency.pipe';
 import { DatePipe } from './shared/pipes/date.pipe';
+import {
+  NgxUiLoaderModule,
+  NgxUiLoaderRouterModule,
+  NgxUiLoaderHttpModule,
+} from 'ngx-ui-loader';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { MatIconModule } from '@angular/material/icon';
+import { NamePipe } from './shared/pipes/name.pipe';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ChatCardComponent } from './shared/components/chat-card/chat-card.component';
+import { MessageBoxComponent } from './shared/components/message-box/message-box.component';
 
 @NgModule({
   declarations: [
@@ -45,13 +57,51 @@ import { DatePipe } from './shared/pipes/date.pipe';
     PropretyComponent,
     CurrencyPipe,
     DatePipe,
+    NamePipe,
+    ChatComponent,
+    ChatCardComponent,
+    MessageBoxComponent,
   ],
   imports: [
-    BrowserModule, 
-    AppRoutingModule, 
+    BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(), 
+    FontAwesomeModule,
+    MatIconModule,
+    NgxUiLoaderModule.forRoot({
+      bgsColor: '#3764eb',
+      bgsOpacity: 0.1,
+      bgsPosition: 'center-center',
+      bgsSize: 70,
+      bgsType: 'wandering-cubes',
+      blur: 5,
+      delay: 0,
+      fastFadeOut: true,
+      fgsColor: '#3764eb',
+      fgsPosition: 'center-center',
+      fgsSize: 70,
+      fgsType: 'wandering-cubes',
+      gap: 24,
+      logoPosition: 'center-center',
+      logoSize: 80,
+      logoUrl: '',
+      masterLoaderId: 'master',
+      overlayBorderRadius: '0',
+      overlayColor: 'rgba(178,178,178,0.8)',
+      pbColor: '#3764eb',
+      pbDirection: 'ltr',
+      pbThickness: 3,
+      hasProgressBar: true,
+      text: '',
+      textColor: '#3764eb',
+      textPosition: 'center-center',
+      maxTime: -10,
+      minTime: 300,
+    }),
+    NgxUiLoaderRouterModule.forRoot({ showForeground: false }),
+    NgxUiLoaderHttpModule.forRoot({ showForeground: false }),
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,61 +1,108 @@
-<div class="flex flex-row h-screen ">
-    <!-- side nav bar start-->
-    <div class="w-2/12">
-        <app-nav></app-nav>
-    </div>
-    <!--side nav bar end-->
+<div class="flex flex-col w-full h-screen bg-gray-50">
 
-    <!--rightside start-->
-    <div class="flex flex-col w-10/12 ">
+  <!--bar start-->
+  <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 bg-white">
+    <div class="text-2xl">Property - {{property.name}}</div>
+  </div> <!--bar end-->
 
-        <!--search bar start-->
-        <div class="flex flex-row pt-5 px-10 w-full justify-center border-b-2 ">
-            {{data.id}}
+
+  <div *ngIf="property.id !=0 then thenBlock else elseBlock;"></div>
+
+  <ng-template #thenBlock>
+
+    <div class="flex flex-col justify-start items-center w-full h-full ">
+
+      <!-- property serction start -->
+      <div class=" flex flex-row justify-between w-8/12 h-44 max-h-44 border rounded-md drop-shadow-sm mt-10 bg-white">
+
+        <div class="h-full w-3/6 p-2 rounded-md ">
+          <img class="h-full w-full bg-cover rounded-md " src={{property.image}} />
         </div>
 
-        <div class="flex justify-center">
-
-            <!-- Card serction  -->
-            <div class="flex-col justify-between items-center h-full w-6/12 ">
-
-
-                <div class="h-80">
-                    <img class="h-full w-full bg-cover" src={{property.image}} />
-                </div>
-
-                <!-- Down srction start -->
-                <div class="flex flex-col  h-full">
-
-                    <div class="flex justify-between items-center border p-6 ">
-
-                        <div class="flex flex-col justify-center">
-                            <div class="text-2xl font-bold">Anikesh House</div>
-                            <div>2 BED | 1 BATH | 1 GARAGE | 250 sqrt</div>
-                        </div>
-
-                        <div class="text-4xl font-bold text-blue-600">$ 25k</div>
-
-                    </div>
-
-                    <div class="flex justify-between border h-min p-6 ">
-
-                        <div class="flex flex-col justify-between">
-                            <div class="text-sm">Owner</div>
-                            <div class="text-xl font-bold">Atanu Debnath </div>
-                        </div>
-
-                        <div class="w-3/12 h-full">
-                            <app-button-component name="message" />
-                        </div>
-
-                    </div>
-
-                </div> <!-- Down srction end -->
-
-
+        <div class="flex flex-col justify-between w-full p-5">
+          <div class="flex flex-row justify-between ">
+            <div class="flex items-center font-medium text-3xl">{{property.name}}</div>
+            <div class="flex items-center font-bold text-4xl text-blue-600">₹ {{property.price|currency}}
+            </div>
+          </div>
+          <div class="flex flex-row w-full h-full items-center text-lg text-slate-600 font-medium">
+            <div class="flex flex-row ">
+              <fa-icon class="mr-2" [icon]="icons.bed" />
+              <div class="mr-5">{{property.bed}}</div>
             </div>
 
-        </div>
-    </div><!--right side end-->
+            <div class="flex flex-row ">
+              <fa-icon class="mr-2" [icon]="icons.bath" />
+              <div class="mr-5 ">{{property.bath}}</div>
+            </div>
 
+            <div class="flex flex-row ">
+              <fa-icon class="mr-2 " [icon]="icons.warehouse" />
+              <div class="mr-5">{{property.garage}}</div>
+            </div>
+
+            <div class="flex flex-row ">
+              <fa-icon class="mr-2 " [icon]="icons.area" />
+              {{property.area}} Sqft.
+            </div>
+          </div>
+          <div class="flex flex-row justify-between text-lg text-slate-600 font-medium">
+            <div class="flex flex-row ">
+              <fa-icon class="mr-2 " [icon]="icons.location" />
+              <div class="mr-5">{{property.city}}</div>
+            </div>
+            <div>Added {{property.createdAt | date}}</div>
+          </div>
+        </div>
+
+      </div> <!-- property serction end -->
+
+      <!-- user serction start -->
+      <div class="flex flex-row justify-between w-8/12 h-20 border rounded-md drop-shadow-sm mt-2 bg-white">
+
+        <div class="flex flex-col justify-center py-2 px-2">
+          <div class="font-medium text-xl">{{user.name}}</div>
+          <div class="font-normal text-base">{{user.email}}</div>
+        </div>
+
+        <div *ngIf="property.user != userService.user.email"
+          class="flex flex-row items-center justify-end px-2 py-4 w-full">
+
+          <input #inputvalue class="
+          block
+          px-3
+          w-3/5
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding
+          border border-solid border-gray-300
+          rounded-full
+          transition
+          ease-in-out
+          mx-2
+          focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none
+        " id="exampleText0" placeholder="message" />
+
+          <button (click)="onSendButtonPress(inputvalue.value)" type="button"
+            class="mx-2 px-12 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            send
+          </button>
+
+
+
+        </div>
+
+      </div> <!-- user serction end -->
+
+    </div>
+
+  </ng-template>
+
+  <ng-template #elseBlock>
+    <div class="flex flex-col justify-center items-center w-full h-full py-3 ">
+      <p>Sorry ! No content found</p>
+    </div>
+  </ng-template>
 </div>

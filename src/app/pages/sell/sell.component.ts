@@ -26,8 +26,8 @@ export class SellComponent {
     user: '',
     active: true,
     image: '',
-    updateAt: undefined,
-    createdAt: undefined,
+    updateAt: new Date(),
+    createdAt: new Date(),
   };
 
   constructor(
@@ -68,32 +68,15 @@ export class SellComponent {
 
   uploadProperty() {
     //set user Email
-    this.property.user = this.userService.userData.email;
+    this.property.user = this.userService.user.email;
     // handel Empty fields
     if (this.helperService.handelEmptyFilds(this.property)) return;
 
     // upload property
-      this.propertyService.uploadProperty(this.property).subscribe({
-        next: (res: any) => {
-          this.helperService.showToastS(res.message);
-          this.helperService.reloadCurrentRoute();
-        },
-        error: (error: any) => {
-          this.helperService.handelError(error);
-        },
-      });
-  }
-
-  uploadImage(file:File){
-    // handel Empty image
-    if (file == undefined) {
-      this.helperService.showToastW('upload image');
-      return;
-    }
-    //upload image 
-    this.propertyService.uploadImage(file).subscribe({
+    this.propertyService.uploadProperty(this.property).subscribe({
       next: (res: any) => {
-        this.property.image= res.image as string;
+        this.helperService.showToastS(res.message);
+        this.helperService.reloadCurrentRoute();
       },
       error: (error: any) => {
         this.helperService.handelError(error);
@@ -101,7 +84,20 @@ export class SellComponent {
     });
   }
 
-  uploadButtonClick() {
-    this.uploadProperty();
+  uploadImage(file: File) {
+    // handel Empty image
+    if (file == undefined) {
+      this.helperService.showToastW('upload image');
+      return;
+    }
+    //upload image
+    this.propertyService.uploadImage(file).subscribe({
+      next: (res: any) => {
+        this.property.image = res.image as string;
+      },
+      error: (error: any) => {
+        this.helperService.handelError(error);
+      },
+    });
   }
 }

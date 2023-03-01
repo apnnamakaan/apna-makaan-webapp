@@ -1,0 +1,29 @@
+<div (click)="onChatCardClick()" class="flex flex-row justify-center item-center w-full h-24 px-5 border-b shadow-sm bg-white">
+
+  <div class="flex justify-evenly items-end h-20 w-20 py-2 ">
+    <img class="h-full w-full rounded border-2" src={{room.property_image}} />
+  </div>
+
+  <div class="flex flex-col justify-center item-center w-full px-5">
+
+    <div class="flex flex-row w-full font-medium text-lg">
+      {{room.name}}
+    </div>
+
+    <div *ngIf="room.seller==userService.user.email; then thenBlock else elseBlock"></div>
+
+    <ng-template #thenBlock class="flex flex-row w-full font-medium text-lg">
+      {{ room.buyer}}
+    </ng-template>
+
+    <ng-template #elseBlock class="flex flex-row w-full font-medium text-lg">
+      {{ room.seller}}
+    </ng-template>
+
+    <div class="flex flex-row w-full justify-end text-xs">
+      {{room.updated_at | date: 'time'}}
+    </div>
+  </div>
+
+
+</div>

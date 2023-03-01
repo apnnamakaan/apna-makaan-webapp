@@ -1,25 +1,14 @@
 import { HelperService } from './helper.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Apis } from '../utils/apis';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { user } from './../models/user';
-import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  public apiResponse: any = {
-    status: '',
-    message: '',
-  };
-
-  public verifyResponse: any = {
-    email: '',
-  };
-
-  public userData: user = {
+  public user: user = {
     name: '',
     phone: 0,
     email: '',
@@ -31,42 +20,39 @@ export class UserService {
     authorization: this.getToken(),
   });
 
-  constructor(
-    private authSevices: AuthService,
-    private http: HttpClient,
-    private helperService: HelperService
-  ) {
-    if (this.authSevices.isLogedin) this.getUser();
+  constructor(private http: HttpClient, private helperService: HelperService) {
+    this.getUser();
   }
 
   getToken() {
     return localStorage.getItem('token') || '';
   }
 
-  getUser() {
-    this.http
+  getUser(){
+    return this.http
       .get(Apis.user.getUserByToken, {
         headers: this.headers,
       })
       .subscribe({
-        next: (res) => {
-          this.userData = res as user;
+        next: (res: any) => {
+          this.user = res as user;
+          this.helperService.reloadCurrentRoute();
         },
-        error: (error) => this.helperService.handelError(error),
+        error: (error: any) => this.helperService.handelError(error),
       });
   }
 
-  updateUser(userData: user) {
-    this.http
-      .put(Apis.user.updateUserByEmail + userData.email, userData, {
+  updateUser(user: user) {
+    return this.http
+      .put(Apis.user.updateUserByEmail + user.email, user, {
         headers: this.headers,
       })
       .subscribe({
-        next: (res:any) => {
-          this.getUser();
+        next: (res: any) => {
           this.helperService.showToastS(res.message);
+          this.helperService.reloadCurrentRoute();
         },
-        error: (error) => this.helperService.handelError(error),
+        error: (error: any) => this.helperService.handelError(error),
       });
   }
 }

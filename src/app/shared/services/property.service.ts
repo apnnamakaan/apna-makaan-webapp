@@ -49,9 +49,23 @@ export class PropertyService {
     });
   }
 
+  getPropertyById(id: number): any {
+    return this.http.get(Apis.property.getPropertyById + id, {
+      headers: this.headers,
+    });
+  }
+
   removePropertyById(id: number): any {
     return this.http.delete(Apis.property.removePropertyById + id, {
       headers: this.headers,
     });
+  }
+
+  deactivePropertyById(id: number): any {
+    return this.http.patch(
+      Apis.property.deactivePropertyById + id,
+      {},
+      { headers: this.headers }
+    );
   }
 }

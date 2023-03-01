@@ -10,6 +10,6 @@ export interface property {
   user: string;
   active: boolean;
   image: string;
-  updateAt: any;
-  createdAt: any;
+  updateAt: Date;
+  createdAt: Date;
 }

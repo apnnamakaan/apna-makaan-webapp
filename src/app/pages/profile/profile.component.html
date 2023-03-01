@@ -1,30 +1,16 @@
-<div class="flex flex-row h-screen">
-    <!-- side nav bar start-->
-    <div class="pc:w-2/12 tab:w-2/12 mob:w-0/12">
-        <app-nav></app-nav>
+<div class="flex flex-col w-full h-screen bg-gray-50">
+
+  <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 bg-white">
+    <p class="w-full text-2xl">My Profile - {{userService.user.name | name}}</p>
+    <app-button-component (onClickEvent)="saveProfileButtonClick()" class="w-2/12" name="Save Profile" />
+  </div>
+
+  <div class="flex flex-col justify-between items-center w-full h-full overflow-auto pt-20 ">
+    <div class="w-5/12">
+      <app-input-component (getValueEvent)="setName($event)" placeholder={{user.name}} lable="Name" />
+      <app-input-component (getValueEvent)="setPhone($event)" placeholder={{user.phone}} lable="Phone" />
+      <app-input-component isDisable="true" placeholder={{user.email}} lable="Email" />
     </div>
-    <!--side nav bar end-->
-
-    <!--rightside start-->
-    <div class="flex flex-col pc:w-10/12 tab:w-10/12 mob:w-12/12 items-center">
-
-        <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2">
-            <p class="w-full text-3xl">My Profile</p>
-            <app-button-component (onClickEvent)="saveProfileButtonClick()" class="w-2/12" name="Save Profile" />
-
-        </div>
-
-
-        <div class="flex flex-col justify-between items-center w-full overflow-auto pt-20">
-            <div class="w-5/12">
-                <app-input-component (getValueEvent)="setName($event)" placeholder={{userData.name}} lable="Name" />
-                <app-input-component (getValueEvent)="setPhone($event)" placeholder={{userData.phone}} lable="Phone" />
-                <app-input-component isDisable="true" placeholder={{userData.email}} lable="Email" />
-            </div>
-        </div>
-
-
-
-    </div><!--right side end-->
+  </div>
 
 </div>

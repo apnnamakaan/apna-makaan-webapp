@@ -1,6 +1,7 @@
+import { HelperService } from './../../shared/services/helper.service';
 import { UserService } from './../../shared/services/user.service';
 import { user } from './../../shared/models/user';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../shared/services/auth.service';
 
 @Component({
@@ -8,8 +9,8 @@ import { AuthService } from './../../shared/services/auth.service';
   templateUrl: './profile.component.html',
   styles: [],
 })
-export class ProfileComponent {
-  public userData: user = {
+export class ProfileComponent implements OnInit {
+  public user: user = {
     name: '',
     phone: 0,
     email: '',
@@ -18,24 +19,23 @@ export class ProfileComponent {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    public userService: UserService
   ) {
     this.authService.checkIsLogedIn();
   }
-
-  ngDoCheck(): void {
-    this.userData = this.userService.userData;
+  ngOnInit() {
+    this.user = this.userService.user;
   }
 
-  setName(value :any){
-    this.userData.name = value;
+  setName(value: any) {
+    this.user.name = value;
   }
 
-  setPhone(value :any){
-    this.userData.phone = value;
+  setPhone(value: any) {
+    this.user.phone = value;
   }
 
   saveProfileButtonClick() {
-    this.userService.updateUser(this.userData);
+    this.userService.updateUser(this.user);
   }
 }

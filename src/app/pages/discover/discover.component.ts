@@ -27,24 +27,40 @@ export class DiscoverComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private activatedroute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private propertyService: PropertyService,
     private helperService: HelperService
   ) {
     this.authService.checkIsLogedIn();
   }
-
+  //http://localhost:4200/properties?city=Nabadwip&bed=1&bath=1&garage=1&min=0&max=70000
   ngOnInit(): void {
-    // this.activatedroute.queryParams.subscribe((params) => {
-    //   if (!this.helperService.handelEmptyFilds(params, false)) {
-    //     this.getPropertiesByFilter(params);
-    //   } else {
-    //     this.getProperties();
-    //   }
-    // });
+    if (this.router.url === '/') {
+      this.getProperties();
+    } else {
+      this.filterData.city = this.activatedRoute.snapshot.paramMap.get(
+        'city'
+      ) as unknown as string;
+      this.filterData.bed = this.activatedRoute.snapshot.paramMap.get(
+        'bed'
+      ) as unknown as string;
+      this.filterData.bath = this.activatedRoute.snapshot.paramMap.get(
+        'bath'
+      ) as unknown as string;
+      this.filterData.garage = this.activatedRoute.snapshot.paramMap.get(
+        'garage'
+      ) as unknown as string;
+      this.filterData.min = this.activatedRoute.snapshot.paramMap.get(
+        'min'
+      ) as unknown as string;
+      this.filterData.max = this.activatedRoute.snapshot.paramMap.get(
+        'max'
+      ) as unknown as string;
 
-    this.getProperties();
+      this.getPropertiesByFilter();
+      console.log('cal');
+    }
   }
 
   setCity(value: any) {
@@ -63,31 +79,40 @@ export class DiscoverComponent implements OnInit {
     this.filterData.max = value as number;
   }
   setMinPrice(value: any) {
-    console.log('sertt + ' + value);
     this.filterData.min = value as number;
   }
 
   getProperties() {
     this.propertyService.getProperties().subscribe({
-      next: (res: Array<property>) => 
-        this.properties = res.sort((b: property, a: property) => {
+      next: (res: Array<property>) =>
+        (this.properties = res.sort((b: property, a: property) => {
           return +new Date(a.createdAt) - +new Date(b.createdAt);
-        }),
+        })),
       error: (error: any) => this.helperService.handelError(error),
     });
   }
 
-  getPropertiesByFilter(filter: any) {
-    if (this.helperService.handelEmptyFilds(this.filterData)) return;
-    this.propertyService.getPropertiesByFilter(filter).subscribe({
-      next: (res: Array<property>) => this.properties = res.sort((b: property, a: property) => {
-        return +new Date(a.createdAt) - +new Date(b.createdAt);
-      }),
+  getPropertiesByFilter() {
+    this.propertyService.getPropertiesByFilter(this.filterData).subscribe({
+      next: (res: Array<property>) => {
+        this.properties = res.sort((b: property, a: property) => {
+          return +new Date(a.createdAt) - +new Date(b.createdAt);
+        });
+      },
       error: (error: any) => this.helperService.handelError(error),
     });
   }
 
   searchButtonPress() {
-    this.getPropertiesByFilter(this.filterData);
+    this.getPropertiesByFilter();
+    this.router.navigate([
+      '/properties',
+      this.filterData.city,
+      this.filterData.bed,
+      this.filterData.bath,
+      this.filterData.garage,
+      this.filterData.min,
+      this.filterData.max,
+    ]);
   }
 }

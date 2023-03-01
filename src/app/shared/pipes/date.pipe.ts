@@ -5,7 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DatePipe implements PipeTransform {
   transform(value: any, ...args: unknown[]): unknown {
-    return this.timeSince(new Date(value));
+    if (args[0] == 'time') return this.localeTime(new Date(value));
+    else return this.timeSince(new Date(value));
+  }
+
+  localeTime(date: any): any {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
 
   timeSince(date: any): any {

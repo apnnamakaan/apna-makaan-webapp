@@ -1,5 +1,8 @@
 import { property } from './../../models/property';
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { Apis } from '../../utils/apis';
+import { icons } from '../../utils/icons';
 
 @Component({
   selector: 'app-house-card',
@@ -7,6 +10,8 @@ import { Component, Input } from '@angular/core';
   styles: [],
 })
 export class HouseCardComponent {
+  public icons: any = icons;
+
   @Input() property: property = {
     id: 0,
     name: '',
@@ -18,19 +23,18 @@ export class HouseCardComponent {
     price: 0,
     user: '',
     active: false,
-    image:
-      'https://harshatimbers.com/wp-content/themes/harshatimbers/images/no-img.jpg',
-      updateAt: null,
-      createdAt: null,
+    image: '',
+    updateAt: new Date(),
+    createdAt: new Date(),
   };
 
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
-    this.property.image =
-      'http://localhost:5000/cloud/image/' + this.property.image;
+    this.property.image = Apis.image.path + this.property.image;
   }
 
-  //image:"https://harshatimbers.com/wp-content/themes/harshatimbers/images/no-img.jpg"
-  contactButtonPress() {
-    console.warn(this.property);
+  navigatePropertyPage() {
+    this.router.navigate(['/property', this.property.id]);
   }
 }

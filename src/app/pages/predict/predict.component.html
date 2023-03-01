@@ -1,38 +1,28 @@
-<div class="flex flex-row h-screen ">
-    <!-- side nav bar start-->
-    <div class="w-2/12 ">
-        <app-nav></app-nav>
+<div class="flex flex-col w-full h-screen bg-gray-50">
+
+  <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 bg-white">
+    <p class="text-2xl">ML Based Real Time House Price Calculator</p>
+  </div>
+
+  <div class="flex flex-col justify-start items-center w-full h-full py-10 ">
+    <div class="w-6/12 p-20 border rounded-md bg-white drop-shadow-sm">
+      <div class="flex mb-10 justify-center items-end">
+        <p class="text-8xl font-bold text-blue-500">{{estimatePrice | currency}} </p>
+        <p class="text-6xl font-medium text-blue-500">₹</p>
+      </div>
+      <div class="flex items-stretch justify-evenly">
+        <app-select-component (getValueEvent)="setCity($event)" class="w-full pr-2" [values]="data.cityList"
+          placeholder="City" />
+        <app-select-component (getValueEvent)="setBed($event)" class="w-full pr-2" [values]="data.bedList"
+          placeholder="Bed" />
+        <app-select-component (getValueEvent)="setBath($event)" class="w-full pr-2" [values]="data.bathList"
+          placeholder="Bath" />
+        <app-select-component (getValueEvent)="setGarage($event)" class="w-full" [values]="data.garageList"
+          placeholder="Garrage" />
+      </div>
+      <app-input-component (getValueEvent)="setArea($event)" placeholder="Area (sqft.)" />
+      <app-button-component (onClickEvent)="predictButtonPrice()" name="Predict" />
     </div>
-    <!--side nav bar end-->
-
-    <!--rightside start-->
-    <div class="flex flex-col w-10/12 items-center">
-
-        <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2">
-            <p class="text-3xl">ML Based Real Time House Price Calculator</p>
-        </div>
-
-        <div class="w-5/12 p-20">
-            <div class="mb-20 flex justify-center items-end">
-                <p class="text-8xl font-bold text-blue-500">{{estimatePrice | currency}} </p>
-                <p class="text-6xl font-medium text-blue-500">₹</p>
-            </div>
-            <div class="flex items-stretch justify-evenly">
-                <app-select-component (getValueEvent)="setCity($event)" class="w-full pr-2" [values]="data.cityList"
-                    placeholder="City" />
-                <app-select-component (getValueEvent)="setBed($event)" class="w-full pr-2" [values]="data.bedList"
-                    placeholder="Bed" />
-                <app-select-component (getValueEvent)="setBath($event)" class="w-full pr-2" [values]="data.bathList"
-                    placeholder="Bath" />
-                <app-select-component (getValueEvent)="setGarage($event)" class="w-full" [values]="data.garageList"
-                    placeholder="Garrage" />
-            </div>
-            <app-input-component (getValueEvent)="setArea($event)" placeholder="Area (sqrt)" />
-            <app-button-component (onClickEvent)="predictButtonPrice()" name="Predict" />
-        </div>
-
-
-
-    </div><!--right side end-->
+  </div>
 
 </div>

@@ -2,7 +2,7 @@
   <div *ngIf="lable!=''">
     <label for="exampleText0" class="form-label inline-block mb-1 text-gray-700">{{lable}}</label>
   </div>
-  <input [disabled]="isDisable" #value (change)="onchange(value)" type={{type}} class="
+  <input [disabled]="isDisable" #inputvalue (change)="onchange(inputvalue)" value={{value}} type={{type}} class="
                       form-control
                       block
                       px-3

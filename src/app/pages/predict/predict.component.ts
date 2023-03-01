@@ -1,3 +1,4 @@
+import { HelperService } from './../../shared/services/helper.service';
 import { MlService } from './../../shared/services/ml.service';
 import { Component } from '@angular/core';
 import { AuthService } from './../../shared/services/auth.service';
@@ -20,15 +21,11 @@ export class PredictComponent {
     garage: 0,
   };
 
-  public estimatePrice: any;
+  public estimatePrice: number = 0;
 
-  constructor(private authService: AuthService, private mlService: MlService) {}
+  constructor(private authService: AuthService,private helperService: HelperService,  private mlService: MlService) {}
   ngOnInit(): void {
     this.authService.checkIsLogedIn();
-  }
-
-  ngDoCheck(): void {
-    this.estimatePrice = this.mlService.predictRes.estimate;
   }
 
   setCity(value: any) {
@@ -48,6 +45,13 @@ export class PredictComponent {
   }
 
   predictButtonPrice() {
-    this.mlService.predictPrice(this.propertyData);
+    this.mlService.predictPrice(this.propertyData).subscribe({
+      next: (res :any) => {
+        this.estimatePrice = res.estimate;
+      },
+      error: (error :any) => {
+        this.helperService.handelError(error);
+      },
+    });;
   }
 }

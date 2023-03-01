@@ -1,3 +1,5 @@
+import { UserService } from 'src/app/shared/services/user.service';
+import { user } from './../../shared/models/user';
 import { HelperService } from './../../shared/services/helper.service';
 import { PropertyService } from './../../shared/services/property.service';
 import { Component } from '@angular/core';
@@ -15,6 +17,7 @@ export class YourListingComponent {
   constructor(
     private helperService: HelperService,
     private authService: AuthService,
+    private userService: UserService,
     private propertyService: PropertyService
   ) {
     this.authService.checkIsLogedIn();
@@ -24,15 +27,17 @@ export class YourListingComponent {
   }
 
   getPropertiesByEmail() {
-    this.propertyService.getPropertiesByEmail('admin@gmail.com').subscribe({
-      next: (res: Array<property>) => {
-        this.properties = res.sort((b: property, a: property) => {
-          return +new Date(a.createdAt) - +new Date(b.createdAt);
-        });
-      },
-      error: (error: any) => {
-        this.helperService.handelError(error);
-      },
-    });
+    this.propertyService
+      .getPropertiesByEmail(this.userService.user.email)
+      .subscribe({
+        next: (res: Array<property>) => {
+          this.properties = res.sort((b: property, a: property) => {
+            return +new Date(a.createdAt) - +new Date(b.createdAt);
+          });
+        },
+        error: (error: any) => {
+          this.helperService.handelError(error);
+        },
+      });
   }
 }

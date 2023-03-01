@@ -1,0 +1,91 @@
+<div class="flex flex-col w-full h-screen ">
+
+  <!-- App Bar section start -->
+  <!-- <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2">
+    <p class="w-full text-2xl">Chat Section </p>
+  </div> -->
+  <!-- App Bar section end -->
+
+
+  <div class="flex flex-row overflow-auto h-full  bg-gray-50">
+
+    <div class="flex flex-col w-4/12 overflow-auto h-full border-bbg-yellow-200 border ">
+
+      <div class="flex flex-row items-center justify-between px-5 w-full h-20 border-b font-medium text-lg bg-white">
+        <div> INBOX </div>
+        <div (click)="onRefresh()" class="hover:cursor-pointer">
+          <fa-icon [icon]="icons.refresh"></fa-icon>
+        </div>
+
+
+      </div>
+
+      <!-- room section start-->
+      <div class="w-full h-full overflow-auto ">
+        <app-chat-card (getRoomIdEvent)="onChatCardClick($event)" *ngFor="let room of rooms; let index=index"
+          [room]=" room" />
+      </div>
+      <!-- room section end-->
+
+    </div>
+
+
+
+    <div class="flex flex-col justify-between w-8/12 overflow-auto h-full border-bbg-yellow-200 border">
+      <div *ngIf="hideChatBox; then thenBlock else elseBlock"></div>
+
+      <ng-template #thenBlock>
+
+        <div class="flex flex-row justify-start items-center px-5 w-full h-24 border-b bg-white">
+          <div class="h-14 w-14 rounded">
+            <img class="h-full w-full rounded" src={{activeRoom.property_image}} />
+          </div>
+          <div class="px-5">
+            <div class="font-medium text-lg">{{ activeRoom.name }}</div>
+            <div> {{activeReciver}}</div>
+          </div>
+        </div>
+
+        <!-- chat section start-->
+        <div class="flex flex-col justify-end w-full h-full overflow-auto px-5 " #messageContainer>
+          <app-message-box *ngFor="let message of messages; let index=index" [message]="message" />
+        </div>
+        <!-- chat section end-->
+
+        <!-- chat input and button Section start -->
+        <div class="flex flex-row w-full h-20 px-20 py-5 border-t">
+
+          <input #inputbox type="text" class="
+                      h-11
+                      w-4/5
+                      block
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded-full
+                      transition
+                      ease-in-out
+                      m-0
+                      mr-5
+                      focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none
+                    " id="exampleText0" placeholder='message' />
+          <button (click)="sendMessage(inputbox.value)" type="button"
+            class="w-1/5 h-11 inline-block py-2.5 bg-blue-500 text-white font-medium text-xs leading-normal uppercase rounded-full shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-blue-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send</button>
+
+
+        </div>
+        <!-- chat input and button Section end -->
+      </ng-template>
+
+      <ng-template #elseBlock>
+        <div class="flex flex-row justify-center items-center h-full w-full">YO!</div>
+      </ng-template>
+
+
+    </div>
+
+  </div>
