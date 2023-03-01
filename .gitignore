@@ -1,4 +1,4 @@
-node_modules
+/node_modules
 .angular/cache/15.1.5
 .vscode
 
