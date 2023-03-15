@@ -68,4 +68,23 @@ export class PropertyService {
       { headers: this.headers }
     );
   }
+
+  getFavorite(user: any): any {
+    return this.http.get(Apis.property.getFavorite + user, {
+      headers: this.headers,
+    });
+  }
+
+  addToFavorite(fData: any): any {
+    return this.http.post(Apis.property.addToFavorite, fData, {
+      headers: this.headers,
+    });
+  }
+
+  removeFromFavorite(fData: any): any {
+    return this.http.delete(Apis.property.removeFavorite, {
+      headers: this.headers,
+      body: fData,
+    });
+  }
 }

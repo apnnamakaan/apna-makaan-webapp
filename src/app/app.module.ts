@@ -32,9 +32,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MatIconModule } from '@angular/material/icon';
 import { NamePipe } from './shared/pipes/name.pipe';
-import { ChatComponent } from './pages/chat/chat.component';
+
 import { ChatCardComponent } from './shared/components/chat-card/chat-card.component';
-import { MessageBoxComponent } from './shared/components/message-box/message-box.component';
+import { ChatComponent } from './pages/chat/chat.component';
+
+import { MessageCardComponent } from './shared/components/message-card/message-card.component';
+import { ImgPipe } from './shared/pipes/img.pipe';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { FavoriteCardComponent } from './shared/components/favorite-card/favorite-card.component';
 
 @NgModule({
   declarations: [
@@ -58,9 +63,12 @@ import { MessageBoxComponent } from './shared/components/message-box/message-box
     CurrencyPipe,
     DatePipe,
     NamePipe,
-    ChatComponent,
     ChatCardComponent,
-    MessageBoxComponent,
+    ChatComponent,
+    MessageCardComponent,
+    ImgPipe,
+    FavoritesComponent,
+    FavoriteCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +108,9 @@ import { MessageBoxComponent } from './shared/components/message-box/message-box
       minTime: 300,
     }),
     NgxUiLoaderRouterModule.forRoot({ showForeground: false }),
-    NgxUiLoaderHttpModule.forRoot({ showForeground: false }),
+    NgxUiLoaderHttpModule.forRoot({
+      showForeground: false,
+    }),
     ToastrModule.forRoot(),
   ],
   providers: [],

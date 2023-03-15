@@ -1,8 +1,9 @@
 <div class="flex flex-col w-full h-screen bg-gray-50">
 
   <!--bar start-->
-  <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 bg-white">
+  <div class="flex flex-row pt-5 pb-4 px-8 w-full border-b-2 justify-between bg-white">
     <div class="text-2xl">Property - {{property.name}}</div>
+    <app-button-component routerLink="/favorites" class="w-2/12" name="Favorites" />
   </div> <!--bar end-->
 
 
@@ -16,7 +17,7 @@
       <div class=" flex flex-row justify-between w-8/12 h-44 max-h-44 border rounded-md drop-shadow-sm mt-10 bg-white">
 
         <div class="h-full w-3/6 p-2 rounded-md ">
-          <img class="h-full w-full bg-cover rounded-md " src={{property.image}} />
+          <img class="h-full w-full bg-cover rounded-md " [src]="property.image |img" />
         </div>
 
         <div class="flex flex-col justify-between w-full p-5">
@@ -51,7 +52,17 @@
               <fa-icon class="mr-2 " [icon]="icons.location" />
               <div class="mr-5">{{property.city}}</div>
             </div>
-            <div>Added {{property.createdAt | date}}</div>
+            <div class="flex flex-row justify-center items-center">
+              <div class="px-5">
+                Added {{property.createdAt | date}}
+              </div>
+
+              <div (click)="onFavorite()">
+                <fa-icon
+                  class="flex justify-center items-center h-8 w-8 p-2 border rounded-full shadow-md hover:bg-gray-50 hover:shadow-lg focus:bg-gray-50 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-500 active:shadow-lg transition duration-200 ease-in-out"
+                  [icon]="icons.heart" />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -68,7 +79,7 @@
         <div *ngIf="property.user != userService.user.email"
           class="flex flex-row items-center justify-end px-2 py-4 w-full">
 
-          <input #inputvalue class="
+          <input #inputBox class="
           block
           px-3
           w-3/5
@@ -85,7 +96,7 @@
           focus:text-gray-700 focus:bg-white focus:border-blue-500 focus:outline-none
         " id="exampleText0" placeholder="message" />
 
-          <button (click)="onSendButtonPress(inputvalue.value)" type="button"
+          <button (click)="onSendButtonPress(inputBox.value)" type="button"
             class="mx-2 px-12 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
             send
           </button>

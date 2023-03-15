@@ -1,6 +1,8 @@
-const base_url: string = 'http://localhost:5000';
+const base_url: string = 'http://127.0.0.1:5000';
+const ws_url: string = 'http://127.0.0.1:3000';
 
 export const Apis: any = {
+  ws: ws_url,
   auth: {
     login: base_url + '/auth/login',
     signup: base_url + '/auth/signup',
@@ -19,6 +21,9 @@ export const Apis: any = {
     getPropertiesByEmail: base_url + '/property/all/?email=',
     removePropertyById: base_url + '/property/delete/?id=',
     deactivePropertyById: base_url + '/property/deactive/?id=',
+    addToFavorite:  base_url + '/property/favourite',
+    removeFavorite:base_url + '/property/favourite',
+    getFavorite:base_url + '/property/favourite?email='
   },
   ml: {
     predictPrice: base_url + '/ml/predict',
@@ -32,5 +37,11 @@ export const Apis: any = {
     getRoomsByEmail: base_url + '/chat/room/',
     sendMessage: base_url + '/chat/message/send',
     getMessagesByRoomId: base_url + '/chat/message/',
+  },
+  chatV2: {
+    getRoomsByUser: base_url + '/chat/api/room/user/',
+    getRoomId: base_url + '/chat/api/room/',
+    createRoom: base_url + '/chat/api/room',
+    sendMessage: base_url + '/chat/api/message',
   },
 };

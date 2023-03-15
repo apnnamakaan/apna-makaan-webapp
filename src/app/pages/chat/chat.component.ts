@@ -1,146 +1,122 @@
-import { icons } from 'src/app/shared/utils/icons';
+import { message } from './../../shared/models/message';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HelperService } from './../../shared/services/helper.service';
-import { UserService } from './../../shared/services/user.service';
-import { ChatService } from './../../shared/services/chat.service';
-import { room } from './../../shared/models/room';
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { message } from 'src/app/shared/models/message';
+import { HelperService } from 'src/app/shared/services/helper.service';
+import { UserService } from '../../shared/services/user.service';
+import { room } from '../../shared/models/room';
+import { MessageService } from '../../shared/services/message.service';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styles: [],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+  @ViewChild('inputBox') inputBox!: ElementRef;
+  @ViewChild('messageBox') messageBoxRef!: ElementRef<HTMLInputElement>;
+
   public rooms: Array<room> = [];
-  public messages: Array<message> = [];
-
-  public icons = icons;
-  public hideChatBox: boolean = false;
-
-  public activeRoom: room = {
-    _id: undefined,
+  public openedRoom: room = {
+    id: 0,
     name: '',
-    property_id: '',
+    property_id: 0,
     property_image: '',
     seller: '',
     buyer: '',
+    messages: [],
     created_at: new Date(),
     updated_at: new Date(),
-    active: false,
   };
 
-  private activeRoomId: string = '';
-  public activeReciver: string = '';
-
-  @ViewChild('messageContainer') mContainer!: ElementRef;
-
-  @ViewChild('inputbox') inputBox: any;
-
   constructor(
-    private chatService: ChatService,
-    private userService: UserService,
+    private messageService: MessageService,
+    public userService: UserService,
     private helperService: HelperService,
     private activatedroute: ActivatedRoute,
     private router: Router
   ) {}
+  ngAfterViewChecked(): void {
+    this.scrollDown()
+  }
 
   ngOnInit(): void {
+    this.messageService.setupSocketConnection();
+    this.messageService.sendDataToSocket(this.userService.user.email);
+    this.messageService.socket.on('event', (message) => {
+      this.refresh();
+    });
+
     if (this.router.url === '/chat') {
-      this.getRooms(this.userService.user.email);
-      this.hideChatBox = false;
+      this.getRoomsByUser(this.userService.user.email);
     } else {
       let roomId = this.activatedroute.snapshot.paramMap.get('id');
-      this.hideChatBox = true;
-      this.activeRoomId = roomId as string;
-      this.getRooms(this.userService.user.email);
-      this.getMessages(this.activeRoomId);
+      this.getRoomById(roomId);
+      this.getRoomsByUser(this.userService.user.email);
     }
   }
 
-  getRooms(userEmail: any) {
-    this.chatService.getRoomsByEmail(userEmail).subscribe({
+  getRoomsByUser(user: any) {
+    this.messageService.getRoomsByUser(user).subscribe({
       next: (res: Array<room>) => {
-        if (this.router.url !== '/chat') {
-          this.activeRoom = res.filter(
-            (room) => room._id == this.activeRoomId
-          )[0] as room;
-          this.setActiveReciver();
-        }
-        this.rooms = res.sort((b: room, a: room) => {
-          return +new Date(a.created_at) - +new Date(b.created_at);
+        this.rooms = res.sort((a: room, b: room) => {
+          return (
+            +new Date(b.messages[b.messages.length - 1].created_at) -
+            +new Date(a.messages[a.messages.length - 1].created_at)
+          );
         });
       },
       error: (error: any) => this.helperService.handelError(error),
     });
   }
 
-  getMessages(roomId: any) {
-    this.chatService.getMessagesByRoomId(roomId).subscribe({
-      next: (res: Array<message>) => {
-        this.messages = res.sort((a: message, b: message) => {
-          return +new Date(a.created_at) - +new Date(b.created_at);
-        });
+  getRoomById(roomId: any) {
+    this.messageService.getRoomById(roomId).subscribe({
+      next: (res: room) => {
+        this.setOpenedRoom(res);
       },
       error: (error: any) => this.helperService.handelError(error),
     });
   }
 
-  onChatCardClick(roomId: any) {
-    this.activeRoomId = roomId as string;
-    this.getMessages(roomId);
-    this.getRooms(this.userService.user.email);
-    this.setActiveReciver();
-
-    this.router.navigate(['/chat', this.activeRoomId]);
+  setOpenedRoom(value: room) {
+    this.openedRoom = value;
+    this.router.navigate(['/chat', this.openedRoom.id]);
   }
 
-  setActiveReciver() {
-    this.activeReciver =
-      this.userService.user.email == this.activeRoom.buyer
-        ? this.activeRoom.seller
-        : this.activeRoom.buyer;
-  }
-
-  onRefresh() {
-    this.getRooms(this.userService.user.email);
-    this.getMessages(this.activeRoomId);
-  }
-
-  // send button press
-  sendMessage(message: any) {
-
-    if(message == '') return;
-
-    this.activeRoom = this.rooms.filter(
-      (room) => room._id == this.activeRoomId
-    )[0] as room;
-
-    this.activeReciver =
-      this.userService.user.email == this.activeRoom.buyer
-        ? this.activeRoom.seller
-        : this.activeRoom.buyer;
+  sendMessage(message: string) {
+    if (message == '') return;
 
     var messageBody: any = {
-      room: this.activeRoom._id,
+      room_id: this.openedRoom.id,
       sender: this.userService.user.email,
-      receiver: this.activeReciver,
-      message: message,
+      receiver:
+        this.openedRoom.seller != this.userService.user.email
+          ? this.openedRoom.seller
+          : this.openedRoom.buyer,
+      text: message,
     };
 
-    this.chatService.sendMessage(messageBody).subscribe({
-      next: (res: any) => {
-        this.getMessages(this.activeRoom._id);
-        this.scrollDown();
+    this.messageService.sendMessage(messageBody).subscribe({
+      next: (res: message) => {
+        this.refresh();
         this.inputBox.nativeElement.value = '';
       },
-      error: (error: any) => this.helperService.handelError(error),
+      error: (error: any) => {
+        this.helperService.handelError(error);
+      },
     });
   }
 
-  scrollDown() {
-    this.mContainer.nativeElement.scrollTop =
-      this.mContainer.nativeElement.scrollHeight;
+  refresh() {
+    this.scrollDown();
+    this.getRoomById(this.openedRoom.id);
+    this.getRoomsByUser(this.userService.user.email);
+  }
+
+  scrollDown():void {
+    try {
+    this.messageBoxRef.nativeElement.scrollTop =
+      this.messageBoxRef.nativeElement.scrollHeight;
+    } catch(err) { }
   }
 }

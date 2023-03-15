@@ -20,15 +20,20 @@ export class UserService {
     authorization: this.getToken(),
   });
 
-  constructor(private http: HttpClient, private helperService: HelperService) {
+  constructor(
+
+    private http: HttpClient,
+    private helperService: HelperService
+  ) {
     this.getUser();
+
   }
 
   getToken() {
     return localStorage.getItem('token') || '';
   }
 
-  getUser(){
+  getUser() {
     return this.http
       .get(Apis.user.getUserByToken, {
         headers: this.headers,

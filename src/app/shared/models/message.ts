@@ -1,8 +1,9 @@
 export interface message {
-  room: string;
+  id: number;
+  room_id: number;
   sender: string;
   receiver: string;
-  message: string;
+  text: string;
   created_at: Date;
   updated_at: Date;
 }

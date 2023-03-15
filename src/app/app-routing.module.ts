@@ -1,4 +1,4 @@
-import { ChatComponent } from './pages/chat/chat.component';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { PropretyComponent } from './pages/proprety/proprety.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -10,6 +10,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ChatComponent } from './pages/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,11 @@ const routes: Routes = [
     path: 'listing',
     component: YourListingComponent,
     title: 'Listing - Apna Makaan',
+  },
+  {
+    path: 'favorites',
+    component: FavoritesComponent,
+    title: 'Favorite - Apna Makaan',
   },
   {
     path: 'profile',

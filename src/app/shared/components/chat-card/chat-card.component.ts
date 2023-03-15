@@ -7,27 +7,24 @@ import { room } from '../../models/room';
   templateUrl: './chat-card.component.html',
   styles: [],
 })
-export class ChatCardComponent implements OnInit{
+export class ChatCardComponent{
   @Input() room: room = {
-    _id: undefined,
-    property_id: '',
+    id: 0,
+    property_id: 0,
     property_image: '',
     seller: '',
     buyer: '',
     created_at: new Date(),
     updated_at: new Date(),
     name: '',
-    active: false
+    messages: [],
   };
 
-  @Output() getRoomIdEvent = new EventEmitter<room>();
+  @Output() getOpenedRoom = new EventEmitter<room>();
 
   constructor(public userService: UserService) {}
-  ngOnInit(): void {
-    this.room.property_image = 'http://localhost:5000/cloud/image/'+this.room.property_image
-  }
 
   onChatCardClick() {
-    this.getRoomIdEvent.emit(this.room._id);
+    this.getOpenedRoom.emit(this.room);
   }
 }

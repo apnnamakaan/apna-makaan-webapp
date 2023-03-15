@@ -1,64 +1,64 @@
 <div class="flex justify-center items-center w-full max-h-40 h-40 my-5 ">
 
-    <div (click)="navigatePropertyPage()"
-        class="flex flex-row justify-around  w-8/12 h-full  bg-white rounded border  drop-shadow-sm hover:drop-shadow-md ">
+  <div (click)="navigatePropertyPage()"
+    class="flex flex-row justify-around  w-8/12 h-full  bg-white rounded border  drop-shadow-sm hover:drop-shadow-md ">
 
-        <div class="h-full w-4/12 rounded py-2 px-2">
-            <img class="h-full w-full rounded" src={{property.image}} />
+    <div class="h-full w-4/12 rounded py-2 px-2">
+      <img class="h-full w-full rounded" src={{property.image}} />
+    </div>
+
+
+    <div class="h-full w-9/12 flex flex-col justify-between py-3 px-5 ">
+
+      <!---->
+      <div class="flex flex-row justify-between items-center">
+        <div class="text-xl font-medium pr-5">{{property.name}} </div>
+        <div class="text-3xl font-bold text-blue-500">
+          {{property.price| currency}} ₹
+        </div>
+      </div>
+      <!---->
+
+      <!---->
+      <div class="flex flex-row w-full h-full items-center text-lg text-slate-600">
+        <div class="flex flex-row ">
+          <fa-icon class="mr-2" [icon]="icons.bed" />
+          <div class="mr-5">{{property.bed}}</div>
         </div>
 
-
-        <div class="h-full w-9/12 flex flex-col justify-between py-3 px-5 ">
-
-            <!---->
-            <div class="flex flex-row justify-between items-center">
-                <div class="text-xl font-medium pr-5">{{property.name}} </div>
-                <div class="text-3xl font-bold text-blue-500">
-                    {{property.price| currency}} ₹
-                </div>
-            </div>
-            <!---->
-
-            <!---->
-            <div class="flex flex-row w-full h-full items-center text-lg text-slate-600">
-                <div class="flex flex-row ">
-                    <fa-icon class="mr-2" [icon]="icons.bed" />
-                    <div class="mr-5">{{property.bed}}</div>
-                </div>
-
-                <div class="flex flex-row ">
-                    <fa-icon class="mr-2" [icon]="icons.bath" />
-                    <div class="mr-5 ">{{property.bath}}</div>
-                </div>
-
-                <div class="flex flex-row ">
-                    <fa-icon class="mr-2 " [icon]="icons.warehouse" />
-                    <div class="mr-5">{{property.garage}}</div>
-                </div>
-
-                <div class="flex flex-row ">
-                    <fa-icon class="mr-2 " [icon]="icons.area" />
-                    {{property.area}} Sqft.
-                </div>
-            </div>
-            <!---->
-
-            <!---->
-            <div class="flex flex-row w-full h-full items-center text-lg ">
-
-                <div class="flex flex-row text-lg text-slate-600 font-medium">
-                    <fa-icon class="mr-2 " [icon]="icons.location" />
-                    <div class="mr-5">{{property.city}}</div>
-                </div>
-
-                <div class="flex flex-row w-full h-full  items-center justify-end text-base text-gray-500">
-                    Added {{property.createdAt | date}}
-                </div>
-            </div>
-            <!---->
-
-
+        <div class="flex flex-row ">
+          <fa-icon class="mr-2" [icon]="icons.bath" />
+          <div class="mr-5 ">{{property.bath}}</div>
         </div>
+
+        <div class="flex flex-row ">
+          <fa-icon class="mr-2 " [icon]="icons.warehouse" />
+          <div class="mr-5">{{property.garage}}</div>
+        </div>
+
+        <div class="flex flex-row ">
+          <fa-icon class="mr-2 " [icon]="icons.area" />
+          {{property.area}} Sqft.
+        </div>
+      </div>
+      <!---->
+
+      <!---->
+      <div class="flex flex-row w-full h-full items-center text-lg ">
+
+        <div class="flex flex-row text-lg text-slate-600 font-medium">
+          <fa-icon class="mr-2 " [icon]="icons.location" />
+          <div class="mr-5">{{property.city}}</div>
+        </div>
+
+        <div class="flex flex-row w-full h-full  items-center justify-end text-base text-gray-500">
+          Added {{property.createdAt | date}}
+        </div>
+      </div>
+      <!---->
+
 
     </div>
+
+  </div>
 </div>

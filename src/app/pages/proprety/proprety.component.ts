@@ -1,4 +1,4 @@
-import { message } from 'src/app/shared/models/message';
+import { message } from './../../shared/models/message';
 import { UserService } from 'src/app/shared/services/user.service';
 import { HelperService } from 'src/app/shared/services/helper.service';
 import { PropertyService } from './../../shared/services/property.service';
@@ -7,9 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { property } from 'src/app/shared/models/property';
 import { user } from 'src/app/shared/models/user';
 import { icons } from 'src/app/shared/utils/icons';
-import { ChatService } from 'src/app/shared/services/chat.service';
 import { room } from '../../shared/models/room';
-import { Apis } from 'src/app/shared/utils/apis';
+import { MessageService } from 'src/app/shared/services/message.service';
 
 @Component({
   selector: 'app-proprety',
@@ -20,8 +19,6 @@ export class PropretyComponent implements OnInit {
   public icons: any = icons;
 
   public activePropertyId: number = 0;
-
-  private originalImage: string = '';
 
   public property: property = {
     id: 0,
@@ -35,8 +32,8 @@ export class PropretyComponent implements OnInit {
     user: '',
     image: '',
     active: false,
-    updateAt: new Date,
-    createdAt:new Date,
+    updateAt: new Date(),
+    createdAt: new Date(),
   };
 
   public user: user = {
@@ -50,7 +47,7 @@ export class PropretyComponent implements OnInit {
     private activatedroute: ActivatedRoute,
     private propertyService: PropertyService,
     private helperService: HelperService,
-    private chatService: ChatService,
+    private messageService: MessageService,
     public userService: UserService,
     private router: Router
   ) {}
@@ -67,11 +64,6 @@ export class PropretyComponent implements OnInit {
       next: (res: any) => {
         // set property details
         this.property = res.property;
-        //store original image path
-        this.originalImage = this.property.image;
-        //set local image path
-        this.property.image = Apis.image.path + this.property.image;
-
         // set user details
         this.user = res.user;
       },
@@ -79,37 +71,58 @@ export class PropretyComponent implements OnInit {
     });
   }
 
-  onSendButtonPress(message: any) {
+  onFavorite(): void {
+    var fData: any = {
+      user: this.userService.user.email,
+      property: this.property.id,
+    };
 
-    if(message=='') return;
+    this.propertyService.addToFavorite(fData).subscribe({
+      next: (res: any) => {
+        this.helperService.showToastS(res.message);
+        console.warn(res.message);
+      },
+      error: (error: any) => this.helperService.handelError(error),
+    });
+  }
+
+  onSendButtonPress(message: any) {
+    if (message == '') return;
 
     // room body
-    var roomBody: any = {
+    var roomBody: room = {
+      id: 0,
       name: this.property.name,
-      property_id: this.property.id.toString(),
-      property_image: this.originalImage,
+      property_id: this.property.id,
+      property_image: this.property.image,
       seller: this.property.user,
       buyer: this.userService.user.email,
+      messages: [],
+      created_at: new Date(),
+      updated_at: new Date(),
     };
 
     // create room or get room
-    this.chatService.createRoom(roomBody).subscribe({
+    this.messageService.createRoom(roomBody).subscribe({
       next: (res: any) => {
-        var roomId = res.room as string;
+        var room = res as room;
 
         // message Body
-        var messageBody: any = {
-          room: roomId,
+        var messageBody: message = {
+          room_id: room.id,
           sender: this.userService.user.email,
           receiver: this.property.user,
-          message: message,
+          text: message,
+          id: 0,
+          created_at: new Date(),
+          updated_at: new Date(),
         };
 
         // sending message to room
-        this.chatService.sendMessage(messageBody).subscribe({
+        this.messageService.sendMessage(messageBody).subscribe({
           next: (res: any) => {
             // message send success redirect to chat room
-            this.router.navigate(['/chat', roomId]);
+            this.router.navigate(['/chat', room.id]);
           },
           error: (error: any) => this.helperService.handelError(error),
         });

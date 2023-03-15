@@ -4,6 +4,7 @@ import {
   faPlusSquare,
   faClipboard,
   faMessage,
+  faHeart,
 } from '@fortawesome/free-regular-svg-icons';
 
 import {
@@ -17,6 +18,7 @@ import {
   faVectorSquare,
   faArrowRotateRight,
   faArrowRotateForward,
+  faHeartCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {} from '@fortawesome/free-brands-svg-icons';
@@ -36,4 +38,6 @@ export const icons: any = {
   area: faVectorSquare,
   message: faMessage,
   refresh: faArrowRotateForward,
+  heart: faHeart,
+  heardCheck: faHeartCircleCheck,
 };
